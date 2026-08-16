@@ -151,4 +151,47 @@ split.
 **#2998** — the drift monitor's K-S test and webhook alerting were real, but
 `_load_training_baselines()` returned unseeded `np.random.normal` /
 `np.random.exponential` samples. Every instantiation compared production
-traffic against a different
+traffic against a different random reference, so alerts were noise. I wired in
+real persisted training baselines and added Population Stability Index
+alongside the K-S test.
+
+> **Hardest part:** TODO. #2525 is the strongest interview story you have —
+> a loader that *claimed* leakage prevention while splitting randomly. Say
+> how you noticed. 2–3 sentences.
+
+---
+
+## 4. Semantic case retrieval
+
+**[#1153](https://github.com/Puneet04-tech/AegisGraph-Sentinel-2.0/pull/1153)** — semantic fraud case retrieval (vector store, embeddings, cosine top-K)
+**[#2337](https://github.com/Puneet04-tech/AegisGraph-Sentinel-2.0/pull/2337)** — cite precedent cases in Oracle explanations via semantic retrieval
+
+#1153 built the retrieval stack — `CaseEmbedder`, `CaseRetriever`, and a vector
+store with cosine similarity top-K. #2337 connected it: the stack had been
+written to consume Oracle explanation dicts but was never wired into the
+explanation pipeline, so no explanation ever cited a precedent case. Oracle
+output now includes similar historical cases as supporting evidence.
+
+---
+
+# Other repositories
+
+### AegisAI
+**[#731](https://github.com/SdSarthak/AegisAI/pull/731)** — integration test for the Guard scan pipeline, sending benign, classic-injection, and borderline-suspicious prompts through `/api/v1/guard/scan` and asserting on the classification of each.
+**[#701](https://github.com/SdSarthak/AegisAI/pull/701)** — `GET /api/v1/documents/templates` endpoint so the frontend fetches available document templates dynamically instead of hardcoding them.
+
+### CodeGraphContext
+**[#1158](https://github.com/CodeGraphContext/CodeGraphContext/pull/1158)** — the CLI swallowed backend-specific database errors behind a generic exception message. Added a `_print_query_exception()` helper that surfaces the real query error, so a failing query is debuggable from the CLI.
+
+### HELPDESK.AI
+**[#1758](https://github.com/riteshbonthalakoti/HELPDESK.AI/pull/1758)** — mock-based unit tests for `classifier_service.py` loading routines and category distribution verification.
+
+---
+
+# What I'd do differently
+
+> TODO — 3 bullets, honest. This section is worth more than it looks; it's
+> the difference between a portfolio and a brag sheet. Prompts, not answers:
+> Did you ever fix a symptom before understanding the cause? Is there a PR
+> you'd scope smaller now? Did you write the tests before or after, and did
+> that matter?
